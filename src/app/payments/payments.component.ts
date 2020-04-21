@@ -19,9 +19,10 @@ import { ThrowStmt } from '@angular/compiler';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentsComponent implements OnInit, DoCheck, OnDestroy {
-  list_of_payments = [];
+  payments = {};
+  list_of_ids = [];
   registerPaymentSubscription;
-  minDate = new Date(new Date().getTime() - 8 * 24 * 60 * 60 * 1000);
+  minDate = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
   minDateString = this.minDate.toISOString().split('T')[0];
 
   constructor(
@@ -32,7 +33,8 @@ export class PaymentsComponent implements OnInit, DoCheck, OnDestroy {
   ngOnInit(): void {
     this.registerPaymentSubscription = this.registerPaymentService.payment$.subscribe(
       function subscriber(observer) {
-        this.list_of_payments.push(observer);
+        let _id = observer.id;
+        this.payments[_id] = observer;
         this.updateTotal();
       }.bind(this)
     );
@@ -42,77 +44,17 @@ export class PaymentsComponent implements OnInit, DoCheck, OnDestroy {
 
   updateTotal() {
     var total = 0;
-    var new_array = this.list_of_payments;
-    for (let payment of new_array) {
-      total += Number(payment.amount);
+
+    for (let pay in this.payments) {
+      total += Number(this.payments[pay].amount);
     }
-    this.list_of_payments = new_array;
     this.registerPaymentService.total$.next(total);
   }
 
   deletePayment(event) {
-    var elementID = event.target.name;
-    var new_array = this.list_of_payments;
-    new_array.forEach(
-      function remove(payment, i) {
-        if (payment.id === elementID) {
-          new_array.splice(i, 1);
-        }
-      }.bind(this)
-    );
+    let id = event.target.id;
+    delete this.payments[id];
     this.updateTotal();
-  }
-
-  deletePaymentMock(event) {
-    console.log(event.target.name);
-  }
-
-  updateField(event, field) {
-    switch (field) {
-      case 'description':
-        this.updateDescription(event, field);
-        break;
-      case 'amount':
-        this.updateAmount(event, field);
-        break;
-      default:
-        console.log('Nothing was updated');
-        break;
-    }
-  }
-
-  updateDescription(event, field) {
-    let _id = '_' + event.target.id.split('_')[1];
-    let _newValue = event.target.value;
-
-    this.list_of_payments.forEach(
-      function (payment, index) {
-        if (payment.id === _id) {
-          if (_newValue.length <= 4 || _newValue.length > 50) {
-            console.log('invalid value');
-            return false;
-          } else {
-            this.list_of_payments[index][field] = _newValue;
-            return true;
-          }
-        }
-      }.bind(this)
-    );
-  }
-
-  updateAmount(event, field) {
-    let _id = '_' + event.target.id.split('_')[1];
-    let _newValue = Number(event.target.value).toFixed(2);
-
-    this.list_of_payments.forEach(
-      function (payment, index) {
-        if (payment.id === _id) {
-          this.list_of_payments[index][field] = _newValue;
-          this.updateTotal();
-          return true;
-        }
-      }.bind(this)
-    );
   }
 
   ngDoCheck() {

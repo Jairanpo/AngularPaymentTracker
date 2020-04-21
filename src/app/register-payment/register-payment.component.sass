@@ -1,0 +1,60 @@
+@use '../../sass/_color'
+
+=line-edit($fontSize: 1rem)
+    line-height: 2rem
+    font-size: $fontSize
+    color: color.$two
+    width: 100%
+    margin: .5rem 0rem
+    &::placeholder
+        color: color.$two
+        opacity: .7
+
+.error-field
+    margin-top: 0px
+    font-size: .9rem
+    border: 2px solid
+    padding: .3rem
+    border-color: color.$error
+    color: color.$error
+    float: right
+
+label
+    font-size: 1rem
+
+.description-edit-line
+    +line-edit()
+
+.amount-edit-line
+    +line-edit()
+
+.datepicker
+    +line-edit()
+
+.add-btn
+    cursor: pointer
+    float: right
+    text-align: center
+    font-size: 1.5rem
+    border-radius: 10px
+    border-style: solid
+    margin: 1rem
+    padding: .2rem 1rem
+    opacity: .6
+    color: #FFF
+    border-width: 3px
+    background-color: transparent
+    transition: all 0.5s
+    &:disabled
+        opacity: .5
+    &:enabled
+        opacity: 1
+        color: color.$four
+        border-color: color.$four
+    &:hover:enabled
+        color: #FFF
+        border-color: #FFF
+        opacity: 1
+        right: 0
+        font-size: 1.6rem
+        border-width: 4px

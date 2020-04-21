@@ -1,0 +1,52 @@
+<div class="payment-register">
+    <form [formGroup]="paymentRegistrationForm">
+        <h3>Payment registration: </h3>
+        <textarea class="description-edit-line" [placeholder]="options.description"
+            formControlName="description"></textarea>
+
+        <div class="error-field" *ngIf="paymentRegistrationForm.controls.description.errors 
+                    &&
+                    paymentRegistrationForm.controls.description.touched 
+                    ">
+            <div *ngIf="paymentRegistrationForm.controls.description.errors.required">
+                The description field is required
+            </div>
+            <div *ngIf="paymentRegistrationForm.controls.description.errors.minlength">
+                Minimum length is
+                {{paymentRegistrationForm.controls.description.errors.minlength.requiredLength}},
+                actual length is
+                {{paymentRegistrationForm.controls.description.errors.minlength.actualLength}}
+            </div>
+            <div *ngIf="paymentRegistrationForm.controls.description.errors.maxlength">
+                Maximum length is
+                {{paymentRegistrationForm.controls.description.errors.maxlength.requiredLength}},
+                actual length is
+                {{paymentRegistrationForm.controls.description.errors.maxlength.actualLength}}
+            </div>
+        </div>
+
+        <input (keypress)="numberOnly($event)" [placeholder]="options.amount.placeholder" class="amount-edit-line"
+            type="text" formControlName="amount">
+        <div class="error-field" *ngIf="paymentRegistrationForm.controls.amount.errors 
+                    &&
+                    paymentRegistrationForm.controls.amount.touched 
+                    ">
+            <div *ngIf="paymentRegistrationForm.controls.amount.errors.required">
+                The amount field is required, use numbers only
+            </div>
+        </div>
+
+
+        <input #paymentDate class="datepicker" type="date" [min]="minDateString" formControlName="date">
+        <div class="error-field" *ngIf="paymentRegistrationForm.controls.date.errors 
+                    &&
+                    paymentRegistrationForm.controls.date.touched 
+                    ">
+            <div *ngIf="paymentRegistrationForm.controls.date.errors.required">
+                The date field is required
+            </div>
+        </div>
+
+    </form>
+    <button (click)="onSubmit()" [disabled]="!paymentRegistrationForm.valid" class="add-btn"><span>Add</span></button>
+</div>

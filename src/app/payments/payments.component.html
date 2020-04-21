@@ -1,0 +1,66 @@
+<ul class="payment-list">
+  <!--   <li>
+        <button (click)="deletePaymentMock($event)" class="delete-payment" name="B">X</button>
+        <div class="date">2020-05-12<span class="edit">edit</span></div>
+        <div class="description">This is a test...<span class="edit">edit</span></div>
+        <div class="amount">25.00</div>
+    </li>
+    <li>
+        <button (click)="deletePaymentMock($event)" class="delete-payment" name="C">X</button>
+        <div class="date">2020-05-12<span class="edit">edit</span></div>
+        <div class="description">This is a test...<span class="edit">edit</span></div>
+        <div class="amount">35.00</div>
+    </li>
+    <li>
+        <button (click)="deletePaymentMock($event)" class="delete-payment" name="D">X</button>
+        <div class="date">2020-05-12<span class="edit">edit</span></div>
+        <div class="description">This is a test...<span class="edit"> edit</span></div>
+        <div class="amount">45.00</div>
+    </li>
+    <li>
+        <button (click)="deletePaymentMock($event)" class="delete-payment" name="E">X</button>
+        <div class="date">2020-05-12<span class="edit">edit</span></div>
+        <div class="description">This is a test...<span class="edit"> edit</span></div>
+        <div class="amount">55.00</div>
+    </li> -->
+  <li *ngFor="let payment of list_of_payments">
+    <button
+      (click)="deletePayment($event)"
+      class="delete-payment"
+      [name]="payment.id"
+    >
+      X
+    </button>
+    <div class="date">{{ payment.date }}</div>
+    <div class="description" id="{{ payment.id }}">
+      {{ payment.description }}
+    </div>
+    <div class="amount" id="{{ payment.id }}">
+      {{ payment.amount }}
+    </div>
+
+    <span></span>
+    <input
+      id="{{ payment.id_date }}"
+      type="date"
+      #editDate
+      [min]="minDateString"
+      (keydown.enter)="updateField($event, 'date')"
+      class="i-edit"
+    />
+    <input
+      id="{{ payment.id_description }}"
+      #editDescription
+      (keydown.enter)="updateField($event, 'description')"
+      type="text"
+      class="i-edit"
+    />
+    <input
+      id="{{ payment.id_amount }}"
+      #editAmount
+      (keydown.enter)="updateField($event, 'amount')"
+      type="text"
+      class="i-edit"
+    />
+  </li>
+</ul>

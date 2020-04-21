@@ -41,12 +41,24 @@
     <!----------------------------------------------------------------------------------------->
     <span></span>
     <input
+      (change)="updateField($event, 'date')"
       id="{{ pay.value.id_date }}"
       class="i-edit"
       type="date"
       [min]="minDateString"
     />
-    <input id="{{ pay.value.id_description }}" class="i-edit" type="text" />
-    <input id="{{ pay.value.id_amount }}" class="i-edit" type="text" />
+    <input
+      (keydown.enter)="updateField($event, 'description')"
+      id="{{ pay.value.id_description }}"
+      class="i-edit"
+      type="text"
+    />
+    <input
+      (keydown.enter)="updateField($event, 'amount')"
+      (keypress)="numberOnly($event)"
+      id="{{ pay.value.id_amount }}"
+      class="i-edit"
+      type="text"
+    />
   </li>
 </ul>

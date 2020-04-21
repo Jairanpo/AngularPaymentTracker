@@ -65,7 +65,62 @@ export class PaymentsComponent implements OnInit, DoCheck, OnDestroy {
     this.registerPaymentSubscription.unsubscribe();
   }
 
-  openEditSettings(event) {
-    console.log(event.target.id);
+  updateField(event, field) {
+    switch (field) {
+      case 'description':
+        this.updateDescription(event, field);
+        break;
+      case 'amount':
+        this.updateAmount(event, field);
+        break;
+      case 'date':
+        this.updateDate(event, field);
+        break;
+      default:
+        console.log('Nothing was updated');
+        break;
+    }
+  }
+
+  updateDescription(event, field) {
+    let _id = '_' + event.target.id.split('_')[1];
+    let _newValue = event.target.value;
+
+    if (this.payments[_id]) {
+      if (_newValue.length > 4 && _newValue.length < 50) {
+        this.payments[_id].description = _newValue;
+      }
+    }
+  }
+
+  updateAmount(event, field) {
+    let _id = '_' + event.target.id.split('_')[1];
+    let _newValue = Number(event.target.value).toFixed(2);
+
+    if (this.payments[_id]) {
+      this.payments[_id].amount = _newValue;
+    }
+    this.updateTotal();
+  }
+
+  updateDate(event, field) {
+    let _id = '_' + event.target.id.split('_')[1];
+    let _newValue = event.target.value;
+
+    if (this.payments[_id]) {
+      this.payments[_id].date = _newValue;
+    }
+  }
+
+  numberOnly(event): boolean {
+    var currentAmount = event.target.value.amount;
+    const charCode = event.which ? event.which : event.keyCode;
+    const pattern = RegExp(/\./);
+    if (charCode === 46 && !pattern.test(currentAmount)) {
+      return true;
+    } else if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 }

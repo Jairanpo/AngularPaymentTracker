@@ -19,7 +19,7 @@ import { RegisterPaymentService } from 'src/app/services/register-payment.servic
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterPaymentComponent implements OnInit {
-  minDate = new Date(new Date().getTime() - (8 * 24 * 60 * 60 * 1000));
+  minDate = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
   minDateString = this.minDate.toISOString().split('T')[0];
 
   options = {
